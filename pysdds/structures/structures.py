@@ -193,7 +193,7 @@ class Parameter:
         if not isinstance(key, int):
             raise ValueError("Only integer indexing is allowed for parameters")
         if key >= len(self._data) or key < 0:
-            raise KeyError(f"Index {key} invalid for data length {len(self._data)}")
+            raise IndexError(f"Index {key} invalid for data length {len(self._data)}")
         return self._data[key]
 
     def to_sdds(self):
@@ -494,7 +494,7 @@ class Column:
     def __getitem__(self, key):
         if isinstance(key, int):
             if key >= len(self.data) or key < 0:
-                raise KeyError(f"Index {key} invalid for data length {len(self.data)}")
+                raise IndexError(f"Index {key} invalid for data length {len(self.data)}")
             return self.data[key]
         elif isinstance(key, tuple):
             assert len(key) == 2, f"Tuple {key} index length != 2"
@@ -503,7 +503,7 @@ class Column:
             ), f"Not all indices in tuple {key} are integers"
             page_data = self.data[key[0]]
             if key[1] >= len(page_data) or key[1] < 0:
-                raise KeyError(
+                raise IndexError(
                         f"Index {key} invalid - page {key[0]} length is {len(page_data)}"
                 )
             return page_data[key[1]]
@@ -796,7 +796,7 @@ class SDDSFile:
                 )
 
             if not 0 <= page <= self.n_pages - 1:
-                raise KeyError(
+                raise IndexError(
                         f"Page {page} is not within acceptable bounds (0 - {self.n_pages})"
                 )
 
